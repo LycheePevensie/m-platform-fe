@@ -1,0 +1,29 @@
+{
+  "entry": "src/index.js",
+  "disableCSSModules": false,
+  "publicPath": "/",
+  "theme": {
+    "@border-radius-base": "5px",
+    "@font-size-base": "14px",
+    "@line-height-base": "1.2"
+  },
+  "autoprefixer": null,
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api" : "" }
+    }
+  },
+  "extraBabelPlugins": [
+    "transform-runtime",
+    ["import", { "libraryName": "antd", "style": true }]
+  ],
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr"
+      ]
+    }
+  }
+}

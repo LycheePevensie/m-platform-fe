@@ -1,0 +1,100 @@
+.register {
+    background: -webkit-linear-gradient(270deg, rgba(255, 255, 255, 0) 60%, #fff), -webkit-linear-gradient(20deg, #dbedff 32%, #ebfff0);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 60%, #fff), linear-gradient(70deg, #dbedff 32%, #ebfff0);
+    padding: 30px 0;
+}
+
+.form {
+    position: relative;
+    margin: 0 auto;
+    max-width: 680px;
+    padding: 36px;
+    background-color: #fefefe;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+}
+
+.form button {
+    margin: 20px 0 0 0;
+    width: 120px;
+}
+
+.form p {
+    color: rgb(204, 204, 204);
+    text-align: center;
+    margin-top: 16px;
+}
+
+.form p span, .form p span:first-child {
+    margin-right: 16px;
+}
+
+.logo {
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    margin-bottom: 24px;
+}
+
+.logo img {
+    width: 40px;
+    margin-right: 8px;
+}
+
+.logo span {
+    vertical-align: text-bottom;
+    font-size: 16px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.icpselector {
+    width: 60px;
+}
+
+.uploadtext {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+}
+
+.avatartrigger {
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    font-size: 36px;
+    color: #aaa;
+}
+
+.uploader {
+    display: block;
+    width: 300px;
+    height: 96px;
+    cursor: pointer;
+}
+
+.preShow {
+    display: block;
+}
+
+.preHide {
+    display: none;
+}
+
+.hidepic {
+    margin: -20px 0 0 0;
+    padding: 0 0 0 150px;
+}
+
+.picrequire {
+    display: inline-block;
+    margin-right: 4px;
+    content: "*";
+    font-family: SimSun;
+    line-height: 1;
+    font-size: 14px;
+    color: #f04134;
+}
+
+

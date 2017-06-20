@@ -1,0 +1,74 @@
+
+.normal {
+    display: block;
+}
+
+.create {
+    display: inline-block;
+}
+
+.createhide {
+    display: none;
+}
+
+.timefilter {
+    display: inline-block;
+    float: right;
+}
+
+.dpicker, .mpicker, .picker {
+    margin: 0 3px;
+    display: inline-block;
+}
+
+.dpicker {
+    width: 105px;
+}
+
+.mpicker {
+    width: 85px;
+}
+
+.picker {
+    width: 208px;
+}
+
+.operation a {
+    margin: 0 .5em;
+}
+
+.rangepicker {
+    width: 600px;
+}
+
+.contentheader{
+    margin-bottom: 30px;
+}
+
+.contentheader, .clearfix, .contentheader:after, .clearfix:after{
+    content: '';
+    display: block;
+}
+
+.clearfix:after,.contentheader:after{
+    clear: both;
+    height: 0;
+}
+
+.show{
+    display:inline-block;
+}
+
+.confirm{
+    display:inline-block;
+    color:#00a854;
+}
+
+.reject{
+    display:inline-block;
+    color:#f04134;
+}
+
+.hide{
+    display: none;
+}

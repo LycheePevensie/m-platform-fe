@@ -1,0 +1,84 @@
+body {
+    background: -webkit-linear-gradient(270deg, rgba(255, 255, 255, 0) 60%, #fff), -webkit-linear-gradient(20deg, #dbedff 32%, #ebfff0);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 60%, #fff), linear-gradient(70deg, #dbedff 32%, #ebfff0);
+}
+
+.login {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-size: 56% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.9;
+}
+.triangle{
+    position: absolute;
+    top: 50px;
+    left: -20px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 20px solid #fbfbfb;
+}
+.form {
+    position: absolute;
+    top: 48%;
+    left: 57%;
+    margin: -200px 0 0 -190px;
+    width: 400px;
+    height: 260px;
+    padding: 20px 36px;
+    background-color: #fbfbfb;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+}
+
+.form button {
+    width: 46%;
+    margin: 10px 0;
+}
+
+.form p {
+    color: rgb(204, 204, 204);
+    text-align: center;
+    margin-top: 16px;
+}
+
+.form p span, .form p span:first-child {
+    margin-right: 16px;
+}
+
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 43%;
+    margin: -200px 0 0 -190px;
+    width: 150px;
+    height: 330px;
+    text-align: center;
+}
+
+.logo img {
+    width: 100px;
+}
+
+.logo p {
+    vertical-align: text-bottom;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow:  0 0 8px #108ee9;
+}
+
+.ant-spin-container,
+.ant-spin-nested-loading {
+    height: 100%;
+}
+
+.forgot {
+    float: right;
+}
+
+

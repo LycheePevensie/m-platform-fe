@@ -1,0 +1,15 @@
+.filtericon {
+    float: right;
+    padding: 6px 0 0 0;
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+}
+
+.filtericon:hover {
+    color: #108ee9;
+    font-weight: 700;
+    font-size: 18px;
+}
