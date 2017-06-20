@@ -17,8 +17,8 @@ export function reject(id) {
     return request(`/api/leave/reject?id=${id}`);
 }
 
-export function search(values) {
-    return request('/api/leave/search', {
+export function search(values, {page}) {
+    return request(`/api/leave/search?_page=${page}&_limit=${PAGE_SIZE}`, {
         method: 'POST',
         body: JSON.stringify(values),
     });

@@ -24,7 +24,7 @@ export default {
                 },
             });
         },
-        *patch({payload: {values,page = 1}}, {call, put}) {
+        *patch({payload: {values, page = 1}}, {call, put}) {
             const {data, headers} = yield call(usersService.patch, values, {page});
             yield put({
                 type: 'save',

@@ -14,8 +14,8 @@ export default {
         },
     },
     effects: {
-        *fetch({payload: {page = 1}}, {call, put}) {
-            const {data, headers} = yield call(setService.fetch, {page});
+        *fetchDepart({payload: {page = 1}}, {call, put}) {
+            const {data, headers} = yield call(setService.fetchDepart, {page});
             const allusers = yield call(setService.fetchusers);
             const userlist = allusers.data;
             yield put({
@@ -28,14 +28,14 @@ export default {
                 },
             });
         },
-        *remove({payload: id}, {call, put, select}) {
-            yield call(setService.remove, id);
+        *removeDepart({payload: id}, {call, put, select}) {
+            yield call(setService.removeDepart, id);
             const page = yield select(state => state.settings.page);
             yield put({type: 'fetch', payload: {page}});
         },
 
-        *create({payload: values}, {call, put}) {
-            yield call(setService.create, values);
+        *createDepart({payload: values}, {call, put}) {
+            yield call(setService.createDepart, values);
             yield put({type: 'reload'});
         },
         *reload(action, {put, select}) {
@@ -47,7 +47,7 @@ export default {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/setDepartment') {
-                    dispatch({type: 'fetch', payload: query});
+                    dispatch({type: 'fetchDepart', payload: query});
                 }
             });
         },

@@ -25,6 +25,13 @@ const Login = ({
         })
     }
 
+    function upLoad(imgurl) {
+        dispatch({
+            type: 'login/uploadImg',
+            payload: imgurl,
+        });
+    }
+
     return (
         <div className={styles.login} style={{backgroundImage: `url(../api/imac-2x.png)`}}>
             <div className={styles.logo}>
@@ -68,7 +75,7 @@ const Login = ({
                             <Button type="primary" size="large" onClick={handleOk} loading={loginLoading} style={{"margin-right": "20px"}}>
                                 登录
                             </Button>
-                            <PhotoModal>
+                            <PhotoModal onUp={upLoad}>
                                 <Button type="primary" size="large">拍照登录</Button>
                             </PhotoModal>
                         </div>

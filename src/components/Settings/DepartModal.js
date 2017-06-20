@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Form, Input, Select, Modal, TimePicker, Button} from 'antd';
-import styles from './Settings.css'
+import {Form, Input, Select, Modal, TimePicker, notification} from 'antd';
+import moment from 'moment';
+import styles from './Settings.css';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -11,7 +12,10 @@ class DepartModal extends Component {
         super(props);
         this.state = {
             visible: false,
-            open: false
+            checkS: '',
+            checkE: '',
+            leaveS: '',
+            leaveE: ''
         };
     }
 
@@ -30,29 +34,65 @@ class DepartModal extends Component {
 
     okHandler = () => {
         const {onOk} = this.props;
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                onOk(values);
-                this.hideModelHandler();
-            }
-        });
+        if (this.props.form.getFieldValue("departCheckS") > this.props.form.getFieldValue("departCheckE")) {
+            notification.warn({
+                message: '签到起始时间必须小于终止时间！',
+                top: 500,
+                duration: 2,
+            });
+        } else if (this.props.form.getFieldValue("departLeaveS") > this.props.form.getFieldValue("departLeaveE")) {
+            notification.warn({
+                message: '签退起始时间必须小于终止时间！',
+                top: 500,
+                duration: 2,
+            });
+        } else {
+            this.props.form.validateFields((err, values) => {
+                if (!err) {
+                    values.departCheckS = moment(this.props.form.getFieldValue("departCheckS") + 28800000);
+                    values.departCheckE = moment(this.props.form.getFieldValue("departCheckE") + 28800000);
+                    values.departLeaveS = moment(this.props.form.getFieldValue("departLeaveS") + 28800000);
+                    values.departLeaveE = moment(this.props.form.getFieldValue("departLeaveE") + 28800000);
+                    onOk(values);
+                    this.hideModelHandler();
+                }
+            });
+        }
     };
-
-    timeOpenChange = (open) => {
-        console.log(open)
-        this.setState({open});
-    }
-
-    timeClose = () => this.setState({open: false})
-
 
     render() {
         const {children, userlist} = this.props;
         const {getFieldDecorator} = this.props.form;
-        const {department, departLeader, departCheck, departLeave} = this.props.record;
+        const {departId, department, departLeader, departCheckS, departCheckE, departLeaveS, departLeaveE} = this.props.record;
         const formItemLayout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 14},
+            labelCol: {
+                xs: {span: 24},
+                sm: {span: 6},
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 14},
+            },
+        };
+        const formItemLayoutTime = {
+            labelCol: {
+                xs: {span: 40},
+                sm: {span: 12},
+            },
+            wrapperCol: {
+                xs: {span: 40},
+                sm: {span: 8},
+            },
+        };
+        const formItemLayoutTimeE = {
+            labelCol: {
+                xs: {span: 40},
+                sm: {span: 0},
+            },
+            wrapperCol: {
+                xs: {span: 40},
+                sm: {span: 20},
+            },
         };
         const format = 'HH:mm';
         const options = !userlist ? '' : userlist.map(d =>
@@ -72,6 +112,17 @@ class DepartModal extends Component {
                 width={700}
             >
                 <Form horizontal onSubmit={this.okHandler}>
+                    <FormItem
+                        style={{display:"none"}}
+                        {...formItemLayout}
+                        label="部门Id"
+                    >
+                      {
+                          getFieldDecorator('departId', {
+                              initialValue: departId,
+                          })(<Input />)
+                      }
+                    </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="部门名称"
@@ -104,35 +155,53 @@ class DepartModal extends Component {
                         }
                     </FormItem>
                     <FormItem
-                        {...formItemLayout}
+                        style={{display: 'inline-block', width: '50%'}}
+                        {...formItemLayoutTime}
                         label="签到时间"
                     >
                         {
-                            getFieldDecorator('departCheck', {
-                                rules: [{required: true, message: '请选择签到时间!'}],
-                            })(
-                                <div>
-                                    <TimePicker format={format} style={{width:120}} placeholder=""/>
-                                    <span style={{margin: "0 10px"}}>～</span>
-                                    <TimePicker format={format} style={{width:120}} placeholder=""/>
-                                </div>
-                            )
+                            getFieldDecorator('departCheckS', {
+                                initialValue: moment(departCheckS),
+                                rules: [{required: true, message: '请选择签到起始时间!'}],
+                            })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
+                        }
+                    </FormItem>
+                    <span className={styles.timelink}>～</span>
+                    <FormItem
+                        style={{display: 'inline-block', width: '50%'}}
+                        {...formItemLayoutTimeE}
+                        label={<span> </span>}
+                    >
+                        {
+                            getFieldDecorator('departCheckE', {
+                                initialValue: moment(departCheckE),
+                                rules: [{required: true, message: '请选择签到终止时间!'}],
+                            })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }
                     </FormItem>
                     <FormItem
-                        {...formItemLayout}
+                        style={{display: 'inline-block', width: '50%'}}
+                        {...formItemLayoutTime}
                         label="签退时间"
                     >
                         {
-                            getFieldDecorator('departLeave', {
-                                rules: [{required: true, message: '请选择签退时间!'}],
-                            })(
-                                <div>
-                                    <TimePicker format={format} style={{width:120}} placeholder=""/>
-                                    <span style={{margin: "0 10px"}}>～</span>
-                                    <TimePicker format={format} style={{width:120}} placeholder=""/>
-                                </div>
-                            )
+                            getFieldDecorator('departLeaveS', {
+                                initialValue: moment(departLeaveS),
+                                rules: [{required: true, message: '请选择签退起始时间!'}],
+                            })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
+                        }
+                    </FormItem>
+                    <span className={styles.timelink}>～</span>
+                    <FormItem
+                        style={{display: 'inline-block', width: '50%'}}
+                        {...formItemLayoutTimeE}
+                        label={<span> </span>}
+                    >
+                        {
+                            getFieldDecorator('departLeaveE', {
+                                initialValue: moment(departLeaveE),
+                                rules: [{required: true, message: '请选择签退终止时间!'}],
+                            })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }
                     </FormItem>
                 </Form>

@@ -60,9 +60,16 @@ export default {
             const page = yield select(state => state.users.page);
             yield put({type: 'fetch', payload: {page}});
         },
-        *search({payload: values}, {call, put}) {
-            yield call(leaveService.search, values);
-            yield put({type: 'reload'});
+        *search({payload: values, page = 1}, {call, put}) {
+            const {data, headers} = yield call(leaveService.search, values, {page});
+            yield put({
+                type: 'save',
+                payload: {
+                    data,
+                    total: parseInt(headers['x-total-count'], 10),
+                    page: parseInt(page, 10),
+                },
+            });
         },
         *create({payload: values}, {call, put}) {
             yield call(leaveService.create, values);

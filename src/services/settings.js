@@ -1,20 +1,20 @@
 import request from '../utils/request';
 import {PAGE_SIZE} from '../constants';
 
-export function fetch({page}) {
-    return request(`/api/settings/select?_page=${page}&_limit=${PAGE_SIZE}`);
+export function fetchDepart({page}) {
+    return request(`/api/department/select?_page=${page}&_limit=${PAGE_SIZE}`);
 }
 
 export function fetchusers() {
     return request(`/api/users/allusers`);
 }
 
-export function remove(id) {
-    return request(`/api/settings/delete?id=${id}`);
+export function removeDepart(id) {
+    return request(`/api/department/delete?id=${id}`);
 }
 
-export function create(values) {
-    return request(`/api/settings/register`, {
+export function createDepart(values) {
+    return request(`/api/department/new`, {
         method: 'POST',
         body: JSON.stringify(values),
     });

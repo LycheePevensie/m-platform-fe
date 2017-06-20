@@ -7,3 +7,10 @@ export function login(values) {
         body: JSON.stringify(values)
     });
 }
+
+export function upload(imgurl) {
+    return request(`/api/img/imgpost/`, {
+        method: 'POST',
+        body: JSON.stringify(imgurl),
+    });
+}
