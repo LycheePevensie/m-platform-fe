@@ -6,10 +6,14 @@ export default {
         list: [],
         total: null,
         page: null,
+        checkstatus: false
     },
     reducers: {
         save(state, {payload: {data: list, total, page}}) {
             return {...state, list, total, page};
+        },
+        saveStatus(state, {payload:{checkstatus:checkstatus}}){
+            return {...state, checkstatus: checkstatus}
         },
     },
     effects: {
@@ -28,8 +32,8 @@ export default {
             yield call(checkService.create, values);
             yield put({type: 'reload'});
         },
-        *patch({payload: values}, {call, put}) {
-            yield call(checkService.patch, values);
+        *search({payload: values}, {call, put}) {
+            yield call(checkService.search, values);
             yield put({type: 'reload'});
         },
         *reload(action, {put, select}) {
@@ -38,8 +42,10 @@ export default {
         },
         *uploadImg({payload: imgurl}, {put, call}){
             const data = yield call(checkService.upload, imgurl);
-            // const imgpath = data.data.imgurl;
-            // yield put({type: 'savePath', payload: {imgpath}})
+            const imgpath = data.data.imgurl;
+            if(imgpath){
+                yield put({type: 'saveStatus', payload: {checkstatus:true}})
+            }
         },
     },
     subscriptions: {

@@ -6,26 +6,30 @@ export default {
         list: [],
         total: null,
         page: null,
+        departlist: []
     },
     reducers: {
-        save(state, {payload: {data: list, total, page}}) {
-            return {...state, list, total, page};
+        save(state, {payload: {data: list, total, page, departlist:departlist}}) {
+            return {...state, list, total, page, departlist};
         },
     },
     effects: {
         *fetch({payload: {page = 1}}, {call, put}) {
             const {data, headers} = yield call(usersService.fetch, {page});
+            const alldepart = yield call(usersService.fetchdepart);
+            const departlist = alldepart.data;
             yield put({
                 type: 'save',
                 payload: {
                     data,
                     total: parseInt(headers['x-total-count'], 10),
                     page: parseInt(page, 10),
+                    departlist: departlist
                 },
             });
         },
-        *patch({payload: {values, page = 1}}, {call, put}) {
-            const {data, headers} = yield call(usersService.patch, values, {page});
+        *search({payload: {values, page = 1}}, {call, put}) {
+            const {data, headers} = yield call(usersService.search, values, {page});
             yield put({
                 type: 'save',
                 payload: {

@@ -39,7 +39,7 @@ class UserEditModal extends Component {
     };
 
     render() {
-        const {children} = this.props;
+        const {children, edit} = this.props;
         const {getFieldDecorator} = this.props.form;
         const {userName, trueName, sex, userTel, userMail, department, userJob, userFlag} = this.props.record;
         const formItemLayout = {
@@ -54,6 +54,8 @@ class UserEditModal extends Component {
                 </Select>
             </div>
         );
+        const options = !this.props.departlist ? '' : this.props.departlist.map(d =>
+                <Option value={d.departId}>{d.department}</Option>);
 
         return (
             <span>
@@ -61,7 +63,7 @@ class UserEditModal extends Component {
           { children }
         </span>
         <Modal
-            title="编辑用户"
+            title={edit == "add" ? "新增用户" : "编辑用户"}
             visible={this.state.visible}
             onOk={this.okHandler}
             onCancel={this.hideModelHandler}
@@ -147,8 +149,16 @@ class UserEditModal extends Component {
                   {
                       getFieldDecorator('department', {
                           initialValue: department,
-                          rules: [{required: true, message: '请输入部门名!', whitespace: true}],
-                      })(<Input />)
+                          rules: [{required: true, message: '请输入部门名!'}],
+                      })(
+                          <Select
+                              showSearch
+                              placeholder="请选择部门名"
+                              optionFilterProp="children"
+                          >
+                              {!options ? '' : options}
+                          </Select>
+                      )
                   }
                 </FormItem>
                 <FormItem

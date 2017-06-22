@@ -9,7 +9,7 @@ export function remove(id) {
     return request(`/api/users/delete?id=${id}`);
 }
 
-export function patch(values, {page}) {
+export function search(values, {page}) {
     return request(`/api/users/search?_page=${page}&_limit=${PAGE_SIZE}`, {
         method: 'POST',
         body: JSON.stringify(values),
@@ -36,4 +36,8 @@ export function removeimg(imagepath){
         method: 'POST',
         body: JSON.stringify(imagepath),
     });
+}
+
+export function fetchdepart() {
+    return request(`/api/department/alldepart`);
 }

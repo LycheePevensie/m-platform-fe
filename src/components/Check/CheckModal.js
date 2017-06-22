@@ -31,9 +31,21 @@ class CheckEditModal extends Component {
     };
 
     okHandler = () => {
-        const {onOk} = this.props;
+        const {onOk, checkWay} = this.props;
+        if (this.props.checkstatus == true) {
+            this.props.form.setFieldsValue({
+                checkStatus: true,
+            });
+        } else {
+            this.props.form.setFieldsValue({
+                checkStatus: false,
+                checkImg: this.props.checkstatus
+            });
+        }
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.checkWay = checkWay;
                 onOk(values);
                 this.hideModelHandler();
             }
@@ -50,12 +62,12 @@ class CheckEditModal extends Component {
             gps: p
         });
         this.props.form.setFieldsValue({
-            location: p,
+            checkPlace: p,
         });
     };
 
     render() {
-        const {children} = this.props;
+        const {children, checkWay} = this.props;
         const {getFieldDecorator} = this.props.form;
         const {time} = this.props.record;
         const formItemLayout = {
@@ -72,7 +84,7 @@ class CheckEditModal extends Component {
               { children }
             </span>
             <Modal
-                title="新建考勤"
+                title={checkWay == "checkin" ? "签到" : "签退"}
                 visible={this.state.visible}
                 onOk={this.okHandler}
                 onCancel={this.hideModelHandler}
@@ -84,7 +96,7 @@ class CheckEditModal extends Component {
                         {...formNolabelLayout}
                     >
                         {
-                            getFieldDecorator('checkImg', {})(
+                            getFieldDecorator('checkStatus', {})(
                                 <div className={styles.photoarea}>
                                     <PhotoModal onUp={this.upLoad}>
                                         <div className={styles.phototrigger}>
@@ -143,6 +155,15 @@ class CheckEditModal extends Component {
                             getFieldDecorator('otherReason', {
                                 rules: [{required: true, message: '请补充签到范围外说明!', whitespace: true}],
                             })(<Input type="textarea" autosize/>)
+                        }
+                    </FormItem>
+                    <FormItem
+                        style={{display: "none"}}
+                        {...formItemLayout}
+                        label="签到失败照片地址"
+                    >
+                        {
+                            getFieldDecorator('checkImg', {})(<Input />)
                         }
                     </FormItem>
                 </Form>

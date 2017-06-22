@@ -6,14 +6,14 @@ export function fetch({page}) {
 }
 
 export function create(values) {
-    return request('/api/users', {
+    return request('/api/check/new', {
         method: 'POST',
         body: JSON.stringify(values),
     });
 }
 
-export function patch(values) {
-    return request('/api/users/', {
+export function search(values) {
+    return request('/api/check/', {
         method: 'POST',
         body: JSON.stringify(values),
     });

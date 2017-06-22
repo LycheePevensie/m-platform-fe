@@ -5,21 +5,21 @@ import styles from './MainLayout.css';
 
 const SubMenu = Menu.SubMenu;
 
-function Header({children, location}) {
+function Header({children, location, user, logout}) {
     return (
         <div className={styles.header}>
             <div className={styles.foldIcon}>
-                    {children}
+                {children}
             </div>
             <div className={styles.rightWarpper}>
                 <div className={styles.button}>
-                    <Icon type="mail" />
+                    <Icon type="mail"/>
                 </div>
                 <div className={styles.logout}>
                     <Menu mode="horizontal">
-                        <SubMenu title={< span > <Icon type="user" />guo</span>}>
+                        <SubMenu title={< span > <Icon type="user"/>{user.trueName}</span>}>
                             <Menu.Item key="logout">
-                                <a>注销</a>
+                                <a onClick={logout}>注销</a>
                             </Menu.Item>
                         </SubMenu>
                     </Menu>

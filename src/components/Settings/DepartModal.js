@@ -61,7 +61,7 @@ class DepartModal extends Component {
     };
 
     render() {
-        const {children, userlist} = this.props;
+        const {children, userlist, edit} = this.props;
         const {getFieldDecorator} = this.props.form;
         const {departId, department, departLeader, departCheckS, departCheckE, departLeaveS, departLeaveE} = this.props.record;
         const formItemLayout = {
@@ -104,7 +104,7 @@ class DepartModal extends Component {
               { children }
             </span>
             <Modal
-                title="编辑部门"
+                title={edit == "add" ? "新增部门" : "编辑部门"}
                 visible={this.state.visible}
                 onOk={this.okHandler}
                 onCancel={this.hideModelHandler}
@@ -113,7 +113,7 @@ class DepartModal extends Component {
             >
                 <Form horizontal onSubmit={this.okHandler}>
                     <FormItem
-                        style={{display:"none"}}
+                        style={{display: "none"}}
                         {...formItemLayout}
                         label="部门Id"
                     >

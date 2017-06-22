@@ -12,7 +12,6 @@ class LeaveEditModal extends Component {
         super(props);
         this.state = {
             visible: false,
-            userlist: this.props.userlist,
         };
     }
 

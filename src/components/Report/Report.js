@@ -1,10 +1,8 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Table, Pagination, Button, Icon, DatePicker, Tag, Menu, Modal} from 'antd';
+import {Table, Pagination, Button, Icon, Tag, Menu} from 'antd';
 import {routerRedux} from 'dva/router';
 import styles from './Report.css';
-import {PAGE_SIZE} from '../../constants';
-import iconpng from '../../assets/icon.png'
 import ReportModal from './ReportModal';
 import Search from '../Search';
 import ReportImg from './ReportImg'

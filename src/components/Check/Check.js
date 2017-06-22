@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Table, Pagination, Button, Icon} from 'antd';
+import {Table, Pagination, Button, Icon, Menu} from 'antd';
 import {routerRedux} from 'dva/router';
 import styles from './Check.css';
 import {PAGE_SIZE} from '../../constants';
 import CheckModal from './CheckModal';
 import Search from '../Search';
 
-function Check({dispatch, list: dataSource, loading, total, page: current}) {
+function Check({dispatch, list: dataSource, loading, total, page: current, checkstatus}) {
     function pageChangeHandler(page) {
         dispatch(routerRedux.push({
             pathname: '/check',
@@ -24,7 +24,7 @@ function Check({dispatch, list: dataSource, loading, total, page: current}) {
 
     function searchHandler(values) {
         dispatch({
-            type: 'check/patch',
+            type: 'check/search',
             payload: values,
         });
     }
@@ -34,6 +34,7 @@ function Check({dispatch, list: dataSource, loading, total, page: current}) {
             type: 'check/uploadImg',
             payload: imgurl,
         });
+
     }
 
     const columns = [
@@ -103,10 +104,22 @@ function Check({dispatch, list: dataSource, loading, total, page: current}) {
     return (
         <div className={styles.normal}>
             <div>
-                <div className={styles.create}>
-                    <CheckModal record={{}} onOk={createHandler} onUp={uploadImg}>
-                        <Button type="primary"><Icon type="check-square-o"/>签到</Button>
-                    </CheckModal>
+                <div className={styles.contentheader}>
+                    <div className={styles.create}>
+                        <Button type="primary"><Icon type="check-square-o"/>打卡</Button>
+                        <Menu className={styles.createmenu}>
+                            <Menu.Item className={styles.createway}>
+                                <CheckModal record={{}} onOk={createHandler} onUp={uploadImg} checkWay={"checkin"} checkstatus={checkstatus}>
+                                    <span className={styles.createbtn}>签到</span>
+                                </CheckModal>
+                            </Menu.Item>
+                            <Menu.Item className={styles.createway}>
+                                <CheckModal record={{}} onOk={createHandler} onUp={uploadImg} checkWay={"checkout"} checkstatus={checkstatus}>
+                                    <span className={styles.createbtn}>签退</span>
+                                </CheckModal>
+                            </Menu.Item>
+                        </Menu>
+                    </div>
                     <div className={styles.timefilter}>
                         <Search onSearch={searchHandler}></Search>
                     </div>
@@ -131,12 +144,13 @@ function Check({dispatch, list: dataSource, loading, total, page: current}) {
 }
 
 function mapStateToProps(state) {
-    const {list, total, page} = state.check;
+    const {list, total, page, checkstatus} = state.check;
     return {
         loading: state.loading.models.check,
         list,
         total,
         page,
+        checkstatus
     };
 }
 

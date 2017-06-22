@@ -227,16 +227,16 @@ class RegisterForm extends Component {
                                 })(<Input />)
                             }
                         </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="公司"
-                        >
-                            {
-                                getFieldDecorator('company', {
-                                    rules: [{required: true, message: '请输入公司名!', whitespace: true}],
-                                })(<Input />)
-                            }
-                        </FormItem>
+                        {/*<FormItem*/}
+                            {/*{...formItemLayout}*/}
+                            {/*label="公司"*/}
+                        {/*>*/}
+                            {/*{*/}
+                                {/*getFieldDecorator('company', {*/}
+                                    {/*rules: [{required: true, message: '请输入公司名!', whitespace: true}],*/}
+                                {/*})(<Input />)*/}
+                            {/*}*/}
+                        {/*</FormItem>*/}
                         <FormItem
                             {...formItemLayout}
                             label="部门"

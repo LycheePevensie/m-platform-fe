@@ -1,19 +1,25 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Layout, Menu, Icon} from 'antd';
-import { MainLayout } from '../components'
+import {MainLayout} from '../components'
 
 const {Sider, Content} = Layout;
 const {Header, Menus, Bread, Footer, styles} = MainLayout;
 
 function App({children, location, dispatch, app}) {
-    const { collapsed, isNavbar } = app
+    const {collapsed, isNavbar, user} = app
 
     function switchSider() {
         dispatch({
             type: 'app/switchSider'
         });
     };
+
+    function logout() {
+        dispatch({
+            type: 'app/logout'
+        });
+    }
 
     return (
         <div>
@@ -27,7 +33,7 @@ function App({children, location, dispatch, app}) {
                     <Menus location={location} className={styles.content} collapsed={collapsed}/>
                 </Sider>
                 <Layout>
-                    <Header location={location}>
+                    <Header location={location} user={user} logout={logout}>
                         <Icon
                             className={styles.trigger}
                             type={collapsed ? 'menu-unfold' : 'menu-fold'}
@@ -48,4 +54,4 @@ function App({children, location, dispatch, app}) {
     );
 }
 
-export default connect(({ app }) => ({ app }))(App)
+export default connect(({app}) => ({app}))(App)

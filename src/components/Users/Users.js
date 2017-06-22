@@ -7,7 +7,7 @@ import {PAGE_SIZE} from '../../constants';
 import UserModal from './UserModal';
 import UserSearch from './UserSearch';
 
-function Users({dispatch, list: dataSource, loading, total, page: current}) {
+function Users({dispatch, list: dataSource, loading, total, page: current, departlist: departlist}) {
     function deleteHandler(id) {
         dispatch({
             type: 'users/remove',
@@ -24,7 +24,7 @@ function Users({dispatch, list: dataSource, loading, total, page: current}) {
 
     function searchHandler(values) {
         dispatch({
-            type: 'users/patch',
+            type: 'users/search',
             payload: {values},
         });
     }
@@ -57,7 +57,8 @@ function Users({dispatch, list: dataSource, loading, total, page: current}) {
             title: '性别',
             dataIndex: 'sex',
             key: 'sex',
-            render: text => (<span><span className={text == 0 ? styles.show : styles.hide}>男</span><span className={text == 1 ? styles.show : styles.hide}>女</span></span>),
+            render: text => (
+                <span><span className={text == 0 ? styles.show : styles.hide}>男</span><span className={text == 1 ? styles.show : styles.hide}>女</span></span>),
         },
         {
             title: '手机',
@@ -79,7 +80,7 @@ function Users({dispatch, list: dataSource, loading, total, page: current}) {
             key: 'operation',
             render: (text, record) => (
                 <span className={styles.operation}>
-          <UserModal record={record} onOk={createHandler}>
+          <UserModal record={record} onOk={createHandler} departlist={departlist} edit={"edit"}>
               <Tag color="blue">编辑</Tag>
           </UserModal>
           <Popconfirm title="确认删除该用户？" onConfirm={deleteHandler.bind(null, record.userId)}>
@@ -94,7 +95,7 @@ function Users({dispatch, list: dataSource, loading, total, page: current}) {
         <div className={styles.normal}>
             <div>
                 <div className={styles.create}>
-                    <UserModal record={{}} onOk={createHandler}>
+                    <UserModal record={{}} onOk={createHandler} departlist={departlist} edit={"add"}>
                         <Button type="primary"><Icon type="user-add"/>添加成员</Button>
                     </UserModal>
                     <div className={styles.userfilter}>
@@ -121,12 +122,13 @@ function Users({dispatch, list: dataSource, loading, total, page: current}) {
 }
 
 function mapStateToProps(state) {
-    const {list, total, page} = state.users;
+    const {list, total, page, departlist} = state.users;
     return {
         loading: state.loading.models.users,
         list,
         total,
         page,
+        departlist
     };
 }
 

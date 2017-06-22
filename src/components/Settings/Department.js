@@ -61,7 +61,7 @@ function Department({dispatch, list: dataSource, loading, total, page: current, 
             key: 'operation',
             render: (text, record) => (
                 <span className={styles.operation}>
-                  <DepartModal record={record} onOk={createHandler} userlist={userlist}>
+                  <DepartModal record={record} onOk={createHandler} userlist={userlist} edit={"edit"}>
                       <Tag color="blue">编辑</Tag>
                   </DepartModal>
                   <Popconfirm title="确认删除该部门？" onConfirm={deleteHandler.bind(null, record.departId)}>
@@ -76,7 +76,7 @@ function Department({dispatch, list: dataSource, loading, total, page: current, 
         <div className={styles.normal}>
             <div>
                 <div className={styles.create}>
-                    <DepartModal record={{}} onOk={createHandler} userlist={userlist}>
+                    <DepartModal record={{}} onOk={createHandler} userlist={userlist} edit={"add"}>
                         <Button type="primary"><Icon type="usergroup-add"/>添加部门</Button>
                     </DepartModal>
                 </div>
