@@ -19,3 +19,18 @@ export function createDepart(values) {
         body: JSON.stringify(values),
     });
 }
+
+export function fetchLevel({page}) {
+    return request(`/api/level/select?_page=${page}&_limit=${PAGE_SIZE}`);
+}
+
+export function removeLevel(id) {
+    return request(`/api/level/delete?id=${id}`);
+}
+
+export function createLevel(values) {
+    return request(`/api/level/new`, {
+        method: 'POST',
+        body: JSON.stringify(values),
+    });
+}

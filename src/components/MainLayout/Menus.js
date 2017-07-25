@@ -79,6 +79,9 @@ function Menus({location, collapsed}) {
                     <Menu.Item key="/setDepartment">
                         <Link to="/setDepartment"><Icon type="team"/>部门设置</Link>
                     </Menu.Item>
+                    <Menu.Item key="/setLevel">
+                        <Link to="/setLevel"><Icon type="flag" />角色设置</Link>
+                    </Menu.Item>
                     <Menu.Item key="/setPerson">
                         <Link to="/setPerson"><Icon type="heart-o"/>个人设置</Link>
                     </Menu.Item>

@@ -121,7 +121,7 @@ function Report({dispatch, list: dataSource, loading, total, page: current, oper
             <div>
                 <div className={styles.contentheader}>
                     <div className={operation ? styles.create : styles.createhide}>
-                        <Button type="primary"><Icon type="api"/>写汇报</Button>
+                        <Button type="primary"><Icon type="edit" />写汇报</Button>
                         <Menu className={styles.createmenu}>
                             <Menu.Item className={styles.createway}>
                                 <ReportModal onOk={createHandler} userlist={userlist} way={"day"}

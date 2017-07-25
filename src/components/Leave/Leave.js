@@ -7,7 +7,7 @@ import {PAGE_SIZE} from '../../constants';
 import LeaveModal from './LeaveModal';
 import Search from '../Search';
 
-function Leave({dispatch, list: dataSource, loading, total, page: current, operation, userlist:userlist}) {
+function Leave({dispatch, list: dataSource, loading, total, page: current, operation, userlist:userlist,userinfo:userinfo}) {
     function confirmHandler(id) {
         dispatch({
             type: 'leave/confirm',
@@ -107,7 +107,7 @@ function Leave({dispatch, list: dataSource, loading, total, page: current, opera
             <div>
                 <div className={styles.contentheader}>
                     <div className={operation ? styles.create : styles.createhide}>
-                        <LeaveModal record={{}} onOk={createHandler} userlist={userlist}>
+                        <LeaveModal record={{}} onOk={createHandler} userlist={userlist} userinfo={userinfo}>
                             <Button type="primary"><Icon type="calendar"/>请假模板</Button>
                         </LeaveModal>
                     </div>
@@ -136,12 +136,14 @@ function Leave({dispatch, list: dataSource, loading, total, page: current, opera
 
 function mapStateToProps(state) {
     const {list, total, page, userlist} = state.leave;
+    const user = state.app.user;
     return {
         loading: state.loading.models.leave,
         list,
         total,
         page,
         userlist,
+        userinfo:user
     };
 }
 

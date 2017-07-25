@@ -11,6 +11,7 @@ export default {
         *login ({payload : values}, {put, call}) {
             yield put({type: 'showLoginLoading'})
             const data = yield call(loginService.login, values)
+            console.log(data)
             yield put({type: 'hideLoginLoading'})
             if (data.data == true) {
                 location.pathname = '/users';

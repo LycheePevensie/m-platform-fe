@@ -97,4 +97,32 @@
     color: #f04134;
 }
 
+@media screen and (max-width: 500px) {
+    .card {
+        width: 100%;
+        margin: 0 auto 25px auto;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .card {
+        width: 75%;
+        margin: 0 auto 25px auto;
+    }
+}
+
+.cardtitle {
+    padding: 0 0 0 15px;
+    margin: 0 0 -18px 0;
+}
+
+.radio {
+    margin: 5px 0 0 20px;
+    height: 20px;
+}
+
+.customcard {
+    padding: 20px 0 0 0;
+    border-top: 1px solid #d9d9d9;
+}
 

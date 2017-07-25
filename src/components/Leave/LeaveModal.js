@@ -16,6 +16,7 @@ class LeaveEditModal extends Component {
     }
 
     showModelHandler = (e) => {
+        console.log(this.props.userinfo)
         if (e) e.stopPropagation();
         this.setState({
             visible: true,
@@ -30,6 +31,9 @@ class LeaveEditModal extends Component {
 
     okHandler = () => {
         const {onOk} = this.props;
+        this.props.form.setFieldsValue({
+            leaveUser: this.props.userinfo.userId
+        });
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 onOk(values);
@@ -43,7 +47,7 @@ class LeaveEditModal extends Component {
     };
 
     render() {
-        const {children} = this.props;
+        const {children,userinfo} = this.props;
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 6},
@@ -71,16 +75,9 @@ class LeaveEditModal extends Component {
                     >
                         {
                             getFieldDecorator('leaveUser', {
+                                initialValue:userinfo.trueName,
                                 rules: [{required: true, message: '请选择申请人姓名!'}],
-                            })(
-                                <Select
-                                    showSearch
-                                    placeholder="请选择申请人姓名"
-                                    optionFilterProp="children"
-                                >
-                                    {!options ? '' : options}
-                                </Select>
-                            )
+                            })(<Input disabled="true"/>)
                         }
                     </FormItem>
                     <FormItem

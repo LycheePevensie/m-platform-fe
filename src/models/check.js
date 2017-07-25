@@ -6,14 +6,14 @@ export default {
         list: [],
         total: null,
         page: null,
-        checkstatus: false
+        recognise: false
     },
     reducers: {
         save(state, {payload: {data: list, total, page}}) {
             return {...state, list, total, page};
         },
-        saveStatus(state, {payload:{checkstatus:checkstatus}}){
-            return {...state, checkstatus: checkstatus}
+        saveStatus(state, {payload:{recognise:recognise}}){
+            return {...state, recognise: recognise}
         },
     },
     effects: {
@@ -44,7 +44,7 @@ export default {
             const data = yield call(checkService.upload, imgurl);
             const imgpath = data.data.imgurl;
             if(imgpath){
-                yield put({type: 'saveStatus', payload: {checkstatus:true}})
+                yield put({type: 'saveStatus', payload: {recognise:true}})
             }
         },
     },

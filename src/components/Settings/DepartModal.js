@@ -161,7 +161,7 @@ class DepartModal extends Component {
                     >
                         {
                             getFieldDecorator('departCheckS', {
-                                initialValue: moment(departCheckS),
+                                initialValue: departCheckS ? moment((departCheckS), 'HH:mm') : moment(),
                                 rules: [{required: true, message: '请选择签到起始时间!'}],
                             })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }
@@ -174,7 +174,7 @@ class DepartModal extends Component {
                     >
                         {
                             getFieldDecorator('departCheckE', {
-                                initialValue: moment(departCheckE),
+                                initialValue:  departCheckE ? moment((departCheckE), 'HH:mm') : moment(),
                                 rules: [{required: true, message: '请选择签到终止时间!'}],
                             })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }
@@ -186,7 +186,7 @@ class DepartModal extends Component {
                     >
                         {
                             getFieldDecorator('departLeaveS', {
-                                initialValue: moment(departLeaveS),
+                                initialValue:  departLeaveS ? moment((departLeaveS), 'HH:mm') : moment(),
                                 rules: [{required: true, message: '请选择签退起始时间!'}],
                             })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }
@@ -199,7 +199,7 @@ class DepartModal extends Component {
                     >
                         {
                             getFieldDecorator('departLeaveE', {
-                                initialValue: moment(departLeaveE),
+                                initialValue:  departLeaveE ? moment((departLeaveE), 'HH:mm') : moment(),
                                 rules: [{required: true, message: '请选择签退终止时间!'}],
                             })(<TimePicker format={format} style={{width: 120}} placeholder=""/>)
                         }

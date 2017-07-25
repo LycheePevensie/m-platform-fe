@@ -7,7 +7,7 @@ import {PAGE_SIZE} from '../../constants';
 import UserModal from './UserModal';
 import UserSearch from './UserSearch';
 
-function Users({dispatch, list: dataSource, loading, total, page: current, departlist: departlist}) {
+function Users({dispatch, list: dataSource, loading, total, page: current, departlist: departlist, levellist:levellist, user}) {
     function deleteHandler(id) {
         dispatch({
             type: 'users/remove',
@@ -67,37 +67,44 @@ function Users({dispatch, list: dataSource, loading, total, page: current, depar
         },
         {
             title: '部门',
-            dataIndex: 'department',
-            key: 'department',
+            dataIndex: 'departName',
+            key: 'departName',
         },
         {
             title: '职位',
             dataIndex: 'userJob',
             key: 'userJob',
         },
-        {
-            title: '操作',
-            key: 'operation',
-            render: (text, record) => (
-                <span className={styles.operation}>
-          <UserModal record={record} onOk={createHandler} departlist={departlist} edit={"edit"}>
-              <Tag color="blue">编辑</Tag>
-          </UserModal>
-          <Popconfirm title="确认删除该用户？" onConfirm={deleteHandler.bind(null, record.userId)}>
-              <Tag color="red">删除</Tag>
-          </Popconfirm>
-        </span>
-            ),
-        },
     ];
+
+    if (user.levelNum == 0) {
+        columns.push(
+            {
+                title: '操作',
+                key: 'operation',
+                render: (text, record) => (
+                    <span className={styles.operation}>
+                      <UserModal record={record} onOk={createHandler} departlist={departlist} levellist={levellist} edit={"edit"}>
+                          <Tag color="blue">编辑</Tag>
+                      </UserModal>
+                      <Popconfirm title="确认删除该用户？" onConfirm={deleteHandler.bind(null, record.userId)}>
+                          <Tag color="red">删除</Tag>
+                      </Popconfirm>
+                    </span>
+                ),
+            },
+        )
+    }
 
     return (
         <div className={styles.normal}>
             <div>
                 <div className={styles.create}>
-                    <UserModal record={{}} onOk={createHandler} departlist={departlist} edit={"add"}>
-                        <Button type="primary"><Icon type="user-add"/>添加成员</Button>
-                    </UserModal>
+                    <div className={user.levelNum == 0 ? styles.show : styles.hide}>
+                        <UserModal record={{}} onOk={createHandler} departlist={departlist} levellist={levellist} edit={"add"}>
+                            <Button type="primary"><Icon type="user-add"/>添加成员</Button>
+                        </UserModal>
+                    </div>
                     <div className={styles.userfilter}>
                         <UserSearch onSearch={searchHandler}></UserSearch>
                     </div>
@@ -122,13 +129,16 @@ function Users({dispatch, list: dataSource, loading, total, page: current, depar
 }
 
 function mapStateToProps(state) {
-    const {list, total, page, departlist} = state.users;
+    const {list, total, page, departlist, levellist} = state.users;
+    const {user} = state.app;
     return {
         loading: state.loading.models.users,
         list,
         total,
         page,
-        departlist
+        departlist,
+        levellist,
+        user
     };
 }
 

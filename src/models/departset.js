@@ -1,7 +1,7 @@
 import * as setService from '../services/settings';
 
 export default {
-    namespace: 'settings',
+    namespace: 'departset',
     state: {
         list: [],
         total: null,
@@ -31,7 +31,7 @@ export default {
         *removeDepart({payload: id}, {call, put, select}) {
             yield call(setService.removeDepart, id);
             const page = yield select(state => state.settings.page);
-            yield put({type: 'fetch', payload: {page}});
+            yield put({type: 'fetchDepart', payload: {page}});
         },
 
         *createDepart({payload: values}, {call, put}) {
@@ -40,7 +40,7 @@ export default {
         },
         *reload(action, {put, select}) {
             const page = yield select(state => state.settings.page);
-            yield put({type: 'fetch', payload: {page}});
+            yield put({type: 'fetchDepart', payload: {page}});
         },
     },
     subscriptions: {

@@ -24,6 +24,7 @@ export default async function request(url, options) {
     const response = await fetch(url, options);
 
     checkStatus(response);
+    // console.log(response.responseText);
 
     const data = await response.json();
 

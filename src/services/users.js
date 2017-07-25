@@ -41,3 +41,11 @@ export function removeimg(imagepath){
 export function fetchdepart() {
     return request(`/api/department/alldepart`);
 }
+
+export function fetchcompany() {
+    return request(`/api/users/allcompany`);
+}
+
+export function fetchlevel() {
+    return request(`/api/level/alllevel`);
+}

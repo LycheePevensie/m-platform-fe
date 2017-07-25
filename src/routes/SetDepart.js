@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './Common.css';
-import SetComponent from '../components/Settings/Department';
+import Department from '../components/Settings/Department';
 
-function Settings({ location }) {
+function department({ location }) {
   return (
       <div className={styles.normal}>
-        <SetComponent />
+        <Department />
       </div>
   );
 }
 
-export default connect()(Settings);
+export default connect()(department);

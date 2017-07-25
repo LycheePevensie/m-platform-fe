@@ -7,7 +7,7 @@ const Register = ({
     register,
     dispatch,
 }) => {
-    const {imageUrl, imagePath} = register;
+    const {imageUrl, imagePath, companylist} = register;
 
     function handleOk(values) {
         dispatch({type: 'register/create', payload: values})
@@ -28,7 +28,7 @@ const Register = ({
     };
 
     return (
-        <RegisterForm imageUrl={imageUrl} imagePath={imagePath} onOk={handleOk} onUp={upSuccess} onDel={handleRemove}/>
+        <RegisterForm imageUrl={imageUrl} imagePath={imagePath} onOk={handleOk} onUp={upSuccess} onDel={handleRemove} companylist={companylist}/>
     )
 }
 

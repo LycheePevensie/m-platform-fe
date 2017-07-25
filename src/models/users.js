@@ -6,11 +6,12 @@ export default {
         list: [],
         total: null,
         page: null,
-        departlist: []
+        departlist: [],
+        levellist: []
     },
     reducers: {
-        save(state, {payload: {data: list, total, page, departlist:departlist}}) {
-            return {...state, list, total, page, departlist};
+        save(state, {payload: {data: list, total, page, departlist:departlist, levellist:levellist}}) {
+            return {...state, list, total, page, departlist, levellist};
         },
     },
     effects: {
@@ -18,13 +19,16 @@ export default {
             const {data, headers} = yield call(usersService.fetch, {page});
             const alldepart = yield call(usersService.fetchdepart);
             const departlist = alldepart.data;
+            const alllevel = yield call(usersService.fetchlevel);
+            const levellist = alllevel.data;
             yield put({
                 type: 'save',
                 payload: {
                     data,
                     total: parseInt(headers['x-total-count'], 10),
                     page: parseInt(page, 10),
-                    departlist: departlist
+                    departlist: departlist,
+                    levellist: levellist
                 },
             });
         },

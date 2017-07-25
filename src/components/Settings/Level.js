@@ -2,29 +2,28 @@ import React from 'react';
 import {connect} from 'dva';
 import {Table, Pagination, Popconfirm, Button, Icon, Tag} from 'antd';
 import {routerRedux} from 'dva/router';
-import moment from 'moment';
 import styles from './Settings.css';
 import {PAGE_SIZE} from '../../constants';
-import DepartModal from './DepartModal';
+import LevelModal from './LevelModal';
 
-function Department({dispatch, list: dataSource, loading, total, page: current, userlist:userlist}) {
+function Level({dispatch, list: dataSource, loading, total, page: current}) {
     function deleteHandler(id) {
         dispatch({
-            type: 'departset/removeDepart',
+            type: 'levelset/removeLevel',
             payload: id,
         });
     }
 
     function pageChangeHandler(page) {
         dispatch(routerRedux.push({
-            pathname: '/departset',
+            pathname: '/levelset',
             query: {page},
         }));
     }
 
     function createHandler(values) {
         dispatch({
-            type: 'departset/createDepart',
+            type: 'levelset/createLevel',
             payload: values,
         });
     }
@@ -32,39 +31,28 @@ function Department({dispatch, list: dataSource, loading, total, page: current, 
     const columns = [
         {
             title: 'ID',
-            dataIndex: 'departId',
-            key: 'departId',
+            dataIndex: 'levelId',
+            key: 'levelId',
         },
         {
-            title: '部门',
-            dataIndex: 'department',
-            key: 'department',
+            title: '权限级别',
+            dataIndex: 'levelNum',
+            key: 'levelNum',
         },
         {
-            title: '负责人',
-            dataIndex: 'departLeaderName',
-            key: 'departLeaderName',
-            render: text => <a href="">{text}</a>,
-        },
-        {
-            title: '签到',
-            dataIndex: 'departCheck',
-            key: 'departCheck',
-        },
-        {
-            title: '签退',
-            dataIndex: 'departLeave',
-            key: 'departLeave',
+            title: '角色名称',
+            dataIndex: 'levelName',
+            key: 'levelName',
         },
         {
             title: '操作',
             key: 'operation',
             render: (text, record) => (
                 <span className={styles.operation}>
-                  <DepartModal record={record} onOk={createHandler} userlist={userlist} edit={"edit"}>
+                  <LevelModal record={record} onOk={createHandler} edit={"edit"}>
                       <Tag color="blue">编辑</Tag>
-                  </DepartModal>
-                  <Popconfirm title="确认删除该部门？" onConfirm={deleteHandler.bind(null, record.departId)}>
+                  </LevelModal>
+                  <Popconfirm title="确认删除该角色？" onConfirm={deleteHandler.bind(null, record.levelId)}>
                       <Tag color="red">删除</Tag>
                   </Popconfirm>
                 </span>
@@ -76,9 +64,9 @@ function Department({dispatch, list: dataSource, loading, total, page: current, 
         <div className={styles.normal}>
             <div>
                 <div className={styles.create}>
-                    <DepartModal record={{}} onOk={createHandler} userlist={userlist} edit={"add"}>
-                        <Button type="primary"><Icon type="usergroup-add"/>添加部门</Button>
-                    </DepartModal>
+                    <LevelModal record={{}} onOk={createHandler} edit={"add"}>
+                        <Button type="primary"><Icon type="tag-o" />添加角色</Button>
+                    </LevelModal>
                 </div>
                 <Table
                     columns={columns}
@@ -100,14 +88,13 @@ function Department({dispatch, list: dataSource, loading, total, page: current, 
 }
 
 function mapStateToProps(state) {
-    const {list, total, page, userlist} = state.departset;
+    const {list, total, page} = state.levelset;
     return {
-        loading: state.loading.models.departset,
+        loading: state.loading.models.levelset,
         list,
         total,
-        page,
-        userlist
+        page
     };
 }
 
-export default connect(mapStateToProps)(Department);
+export default connect(mapStateToProps)(Level);

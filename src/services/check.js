@@ -2,7 +2,7 @@ import request from '../utils/request';
 import {PAGE_SIZE} from '../constants';
 
 export function fetch({page}) {
-    return request(`/api/check?_page=${page}&_limit=${PAGE_SIZE}`);
+    return request(`/api/check/select?_page=${page}&_limit=${PAGE_SIZE}`);
 }
 
 export function create(values) {

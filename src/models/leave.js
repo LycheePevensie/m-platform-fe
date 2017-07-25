@@ -1,4 +1,5 @@
 import * as leaveService from '../services/leave';
+import * as loginService from '../services/login';
 
 export default {
     namespace: 'leave',
@@ -10,7 +11,7 @@ export default {
         userlist: []
     },
     reducers: {
-        save(state, {payload: {data: list, total, page, userlist:userlist}}) {
+        save(state, {payload: {datas: list, total, page, userlist:userlist}}) {
             return {...state, list, total, page, userlist};
         },
         showcreate (state) {
@@ -25,24 +26,66 @@ export default {
     },
     effects: {
         *fetch({payload: {page = 1}}, {call, put}) {
-            if (location.pathname === '/leaveProposer') {
-                yield put({type: 'showcreate'})
-            }
-            if (location.pathname === '/leaveApprover') {
-                yield put({type: 'hidecreate'})
-            }
+            // if (location.pathname === '/leaveProposer') {
+            //     yield put({type: 'showcreate'})
+            // }
+            // if (location.pathname === '/leaveApprover') {
+            //     yield put({type: 'hidecreate'})
+            // }
+            // const {data, headers} = yield call(leaveService.fetch, {page});
+            // console.log(data);
+            // const allusers = yield call(leaveService.fetchusers);
+            // const userlist = allusers.data;
+            // yield put({
+            //     type: 'save',
+            //     payload: {
+            //         data,
+            //         total: parseInt(headers['x-total-count'], 10),
+            //         page: parseInt(page, 10),
+            //         userlist: userlist,
+            //     },
+            // });
             const {data, headers} = yield call(leaveService.fetch, {page});
             const allusers = yield call(leaveService.fetchusers);
             const userlist = allusers.data;
-            yield put({
-                type: 'save',
-                payload: {
-                    data,
-                    total: parseInt(headers['x-total-count'], 10),
-                    page: parseInt(page, 10),
-                    userlist: userlist,
-                },
-            });
+            const curUser = yield call(loginService.getUserInfo);
+            if (location.pathname === '/leaveProposer') {
+                yield put({type: 'showcreate'});
+                let datas = [];
+                for (let i in data) {
+                    if (data[i].leaveUser == curUser.data.user.userId) {
+                        datas.push(data[i])
+                    }
+                }
+                yield put({
+                    type: 'save',
+                    payload: {
+                        datas,
+                        total: parseInt(headers['x-total-count'], 10),
+                        page: parseInt(page, 10),
+                        userlist: userlist,
+                    },
+                });
+            }
+            if (location.pathname === '/leaveApprover') {
+                yield put({type: 'hidecreate'})
+                let datas = [];
+                for (let i in data) {
+                    if (data[i].leaveManager == curUser.data.user.userId) {
+                        datas.push(data[i])
+                    }
+                }
+                yield put({
+                    type: 'save',
+                    payload: {
+                        datas,
+                        total: parseInt(headers['x-total-count'], 10),
+                        page: parseInt(page, 10),
+                        userlist: userlist,
+                    },
+                });
+            }
+
         },
         // *fetchusers({payload}, {call,put}){
         //     yield put({
@@ -62,14 +105,39 @@ export default {
         },
         *search({payload: values, page = 1}, {call, put}) {
             const {data, headers} = yield call(leaveService.search, values, {page});
-            yield put({
-                type: 'save',
-                payload: {
-                    data,
-                    total: parseInt(headers['x-total-count'], 10),
-                    page: parseInt(page, 10),
-                },
-            });
+            const curUser = yield call(loginService.getUserInfo);
+            if (location.pathname === '/leaveProposer') {
+                let datas = [];
+                for (let i in data) {
+                    if (data[i].leaveUser == curUser.data.user.userId) {
+                        datas.push(data[i])
+                    }
+                }
+                yield put({
+                    type: 'save',
+                    payload: {
+                        datas,
+                        total: parseInt(headers['x-total-count'], 10),
+                        page: parseInt(page, 10),
+                    },
+                });
+            }
+            if (location.pathname === '/leaveApprover') {
+                let datas = [];
+                for (let i in data) {
+                    if (data[i].leaveManager == curUser.data.user.userId) {
+                        datas.push(data[i])
+                    }
+                }
+                yield put({
+                    type: 'save',
+                    payload: {
+                        datas,
+                        total: parseInt(headers['x-total-count'], 10),
+                        page: parseInt(page, 10),
+                    },
+                });
+            }
         },
         *create({payload: values}, {call, put}) {
             yield call(leaveService.create, values);

@@ -32,20 +32,21 @@ class CheckEditModal extends Component {
 
     okHandler = () => {
         const {onOk, checkWay} = this.props;
-        if (this.props.checkstatus == true) {
+        if (this.props.recognise == true) {
             this.props.form.setFieldsValue({
-                checkStatus: true,
+                recognise: true,
             });
         } else {
             this.props.form.setFieldsValue({
-                checkStatus: false,
-                checkImg: this.props.checkstatus
+                recognise: false,
+                checkImg: this.props.recognise
             });
         }
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.checkWay = checkWay;
+                values.checkTime = moment(this.props.form.getFieldValue("checkTime") + 28800000);
                 onOk(values);
                 this.hideModelHandler();
             }
@@ -96,7 +97,7 @@ class CheckEditModal extends Component {
                         {...formNolabelLayout}
                     >
                         {
-                            getFieldDecorator('checkStatus', {})(
+                            getFieldDecorator('recognise', {})(
                                 <div className={styles.photoarea}>
                                     <PhotoModal onUp={this.upLoad}>
                                         <div className={styles.phototrigger}>

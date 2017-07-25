@@ -40,7 +40,7 @@ class UserSearch extends Component {
                     onChange={this.handleChange}
                 >
                     <Option value="name">姓名</Option>
-                    <Option value="department">部门</Option>
+                    <Option value="department">部门ID</Option>
                 </Select>
             </div>
         );

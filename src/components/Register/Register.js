@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox, Tooltip, Select, Radio, Upload, message, Modal} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, Tooltip, Select, Radio, Upload, message, Modal, Card} from 'antd';
 import styles from './Register.css';
 
 const FormItem = Form.Item
@@ -21,10 +21,21 @@ class RegisterForm extends Component {
         this.props.form.setFieldsValue({
             userImage: imagePath,
         });
+        if(this.props.form.getFieldValue('companyCheck') == 'exist'){
+            this.props.form.setFieldsValue({
+                companyNew: '',
+            });
+        }
+        if(this.props.form.getFieldValue('companyCheck') == 'new'){
+            this.props.form.setFieldsValue({
+                companyExist: '',
+            });
+        }
         this.props.form.validateFieldsAndScroll((errors, values) => {
             if (errors) {
                 return
             }
+            console.log(values)
             onOk(values);
         })
     };
@@ -116,6 +127,22 @@ class RegisterForm extends Component {
                 },
             },
         };
+        const formNolabelLayout = {
+            wrapperCol: {
+                span: 24,
+                offset: 0
+            },
+        };
+        const formCompanyLayout = {
+            labelCol: {
+                xs: {span: 24},
+                sm: {span: 4, offset: 0},
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 19, offset: 0},
+            },
+        };
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '86',
         })(<div className={styles.icpselector}>
@@ -124,6 +151,8 @@ class RegisterForm extends Component {
                 </Select>
             </div>
         );
+        const options = !this.props.companylist ? '' : this.props.companylist.map(d =>
+                <Option value={d.companyId}>{d.companyName}</Option>);
         return (
             <div className={styles.register}>
                 <div className={styles.form}>
@@ -132,12 +161,73 @@ class RegisterForm extends Component {
                         <span>{'Welcome'}</span>
                     </div>
                     <form>
+                        <Card className={styles.card} bodyStyle={{padding: 0}}>
+                            <div className={styles.cardtitle}>
+                                <FormItem
+                                    {...formNolabelLayout}
+                                >
+                                    {
+                                        getFieldDecorator('companyCheck', {
+                                            initialValue: 'exist'
+                                        })(
+                                            <RadioGroup>
+                                                <Radio value="exist" className={styles.radio}>申请加入已有公司？</Radio>
+                                                <Radio value="new" className={styles.radio}>创建一个新公司！</Radio>
+                                            </RadioGroup>
+                                        )
+                                    }
+                                </FormItem>
+                            </div>
+                            <div className={styles.customcard}>
+                                <FormItem
+                                    {...formCompanyLayout}
+                                    label="公司"
+                                    style={{display: this.props.form.getFieldValue('companyCheck') == 'exist' ? "block" : "none"}}
+                                >
+                                    {
+                                        getFieldDecorator('companyExist', {
+                                            rules: this.props.form.getFieldValue('companyCheck') == 'exist' ? [{
+                                                    required: true,
+                                                    message: '请选择已有公司!'
+                                                }] : ''
+                                        })(
+                                            <Select
+                                                showSearch
+                                                placeholder="请选择已有公司"
+                                                optionFilterProp="children"
+                                            >
+                                                {!options ? '' : options}
+                                            </Select>
+                                        )
+                                    }
+                                </FormItem>
+                                <FormItem
+                                    {...formCompanyLayout}
+                                    label={(
+                                        <span>公司&nbsp;
+                                            <Tooltip title="公司名称必须唯一"><Icon type="question-circle-o"/></Tooltip>
+                                        </span>
+                                    )}
+                                    hasFeedback
+                                    style={{display: this.props.form.getFieldValue('companyCheck') == 'new' ? "block" : "none"}}
+                                >
+                                    {
+                                        getFieldDecorator('companyNew', {
+                                            rules: this.props.form.getFieldValue('companyCheck') == 'new' ? [{
+                                                    required: true,
+                                                    message: '请填写新公司名称!'
+                                                }] : ''
+                                        })(<Input />)
+                                    }
+                                </FormItem>
+                            </div>
+                        </Card>
                         <FormItem
                             {...formItemLayout}
                             label={(
                                 <span>用户名&nbsp;
                                     <Tooltip title="用户名必须唯一"><Icon type="question-circle-o"/></Tooltip>
-                        </span>
+                                </span>
                             )}
                             hasFeedback
                         >
@@ -229,24 +319,14 @@ class RegisterForm extends Component {
                         </FormItem>
                         {/*<FormItem*/}
                             {/*{...formItemLayout}*/}
-                            {/*label="公司"*/}
+                            {/*label="部门"*/}
                         {/*>*/}
                             {/*{*/}
-                                {/*getFieldDecorator('company', {*/}
-                                    {/*rules: [{required: true, message: '请输入公司名!', whitespace: true}],*/}
+                                {/*getFieldDecorator('department', {*/}
+                                    {/*rules: [{required: true, message: '请输入部门名!', whitespace: true}],*/}
                                 {/*})(<Input />)*/}
                             {/*}*/}
                         {/*</FormItem>*/}
-                        <FormItem
-                            {...formItemLayout}
-                            label="部门"
-                        >
-                            {
-                                getFieldDecorator('department', {
-                                    rules: [{required: true, message: '请输入部门名!', whitespace: true}],
-                                })(<Input />)
-                            }
-                        </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="职位"
@@ -257,28 +337,28 @@ class RegisterForm extends Component {
                                 })(<Input />)
                             }
                         </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="权限级别"
-                        >
-                            {
-                                getFieldDecorator('userFlag', {
-                                    rules: [{required: true, message: '请输入权限值!'}],
-                                })(
-                                    <Select>
-                                        <Option value="1">1</Option>
-                                        <Option value="2">2</Option>
-                                        <Option value="3">3</Option>
-                                        <Option value="4">4</Option>
-                                        <Option value="5">5</Option>
-                                        <Option value="6">6</Option>
-                                        <Option value="7">7</Option>
-                                        <Option value="8">8</Option>
-                                        <Option value="9">9</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
+                        {/*<FormItem*/}
+                            {/*{...formItemLayout}*/}
+                            {/*label="权限级别"*/}
+                        {/*>*/}
+                            {/*{*/}
+                                {/*getFieldDecorator('userFlag', {*/}
+                                    {/*rules: [{required: true, message: '请输入权限值!'}],*/}
+                                {/*})(*/}
+                                    {/*<Select>*/}
+                                        {/*<Option value="1">1</Option>*/}
+                                        {/*<Option value="2">2</Option>*/}
+                                        {/*<Option value="3">3</Option>*/}
+                                        {/*<Option value="4">4</Option>*/}
+                                        {/*<Option value="5">5</Option>*/}
+                                        {/*<Option value="6">6</Option>*/}
+                                        {/*<Option value="7">7</Option>*/}
+                                        {/*<Option value="8">8</Option>*/}
+                                        {/*<Option value="9">9</Option>*/}
+                                    {/*</Select>*/}
+                                {/*)*/}
+                            {/*}*/}
+                        {/*</FormItem>*/}
                         <FormItem
                             {...formItemLayout}
                             label={<span><span className={styles.picrequire}>*</span>照片</span>}

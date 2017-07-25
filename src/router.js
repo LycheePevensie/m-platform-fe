@@ -130,9 +130,19 @@ const RouterConfig = function ({history, app}) {
                     name: 'setDepartment',
                     getComponent(nextState, cb) {
                         require.ensure([], (require) => {
-                            registerModel(app, require('./models/settings'));
-                            cb(null, require('./routes/Settings'));
+                            registerModel(app, require('./models/departset'));
+                            cb(null, require('./routes/SetDepart'));
                         },'setDepartment');
+                    },
+                },
+                {
+                    path: 'setLevel',
+                    name: 'setLevel',
+                    getComponent(nextState, cb) {
+                        require.ensure([], (require) => {
+                            registerModel(app, require('./models/levelset'));
+                            cb(null, require('./routes/SetLevel'));
+                        },'setLevel');
                     },
                 },
             ]

@@ -17,7 +17,6 @@ class Search extends Component {
     }
 
     okHandler = () => {
-        console.log('testtest')
         const {onSearch} = this.props;
         this.props.form.validateFields((err, values) => {
             if (!err) {

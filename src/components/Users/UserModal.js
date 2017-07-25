@@ -30,6 +30,10 @@ class UserEditModal extends Component {
 
     okHandler = () => {
         const {onOk} = this.props;
+        console.log(this.props.record.department)
+        this.props.form.setFieldsValue({
+            department: this.props.record.department
+        });
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 onOk(values);
@@ -41,7 +45,7 @@ class UserEditModal extends Component {
     render() {
         const {children, edit} = this.props;
         const {getFieldDecorator} = this.props.form;
-        const {userName, trueName, sex, userTel, userMail, department, userJob, userFlag} = this.props.record;
+        const {userName, trueName, sex, userTel, userMail, departName, userJob, userFlag} = this.props.record;
         const formItemLayout = {
             labelCol: {span: 6},
             wrapperCol: {span: 14},
@@ -56,7 +60,8 @@ class UserEditModal extends Component {
         );
         const options = !this.props.departlist ? '' : this.props.departlist.map(d =>
                 <Option value={d.departId}>{d.department}</Option>);
-
+        const levels = !this.props.levellist ? '' : this.props.levellist.map(d =>
+                <Option value={d.levelId}>{d.levelName}</Option>);
         return (
             <span>
         <span onClick={this.showModelHandler}>
@@ -105,7 +110,7 @@ class UserEditModal extends Component {
                 >
                   {
                       getFieldDecorator('sex', {
-                          initialValue: sex || 'male',
+                          initialValue: sex == 1 ? 'female' : 'male',
                           rules: [{required: true, message: '请选择性别!'}],
                       })(
                           <RadioGroup>
@@ -148,7 +153,7 @@ class UserEditModal extends Component {
                 >
                   {
                       getFieldDecorator('department', {
-                          initialValue: department,
+                          initialValue: departName,
                           rules: [{required: true, message: '请输入部门名!'}],
                       })(
                           <Select
@@ -174,26 +179,19 @@ class UserEditModal extends Component {
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="权限级别"
+                    label="角色"
                 >
                   {
                       getFieldDecorator('userFlag', {
-                          initialValue: userFlag || 1,
-                          rules: [{required: true, message: '请输入权限值!'}],
+                          initialValue: userFlag,
+                          rules: [{required: true, message: '请选择角色!'}],
                       })(
                           <Select
                               showSearch
+                              placeholder="请选择角色"
                               optionFilterProp="children"
                           >
-                              <Option value="1">1</Option>
-                              <Option value="2">2</Option>
-                              <Option value="3">3</Option>
-                              <Option value="4">4</Option>
-                              <Option value="5">5</Option>
-                              <Option value="6">6</Option>
-                              <Option value="7">7</Option>
-                              <Option value="8">8</Option>
-                              <Option value="9">9</Option>
+                              {!levels ? '' : levels}
                           </Select>
                       )
                   }
